@@ -1,0 +1,17 @@
+# Valores globais, visíveis para todos os subcharts
+global:
+  saPassword: "Tr0ca-Esta-Senha!"   # mínimo 8 chars, com maiúscula, minúscula, número e símbolo
+
+# Valores do subchart todo-frontend
+todo-frontend:
+  replicaCount: 1
+  image:
+    repository: todo-frontend
+    tag: "1.0.0"
+  service:
+    type: ClusterIP
+
+# Valores do subchart sqlserver
+sqlserver:
+  persistence:
+    size: 2Gi

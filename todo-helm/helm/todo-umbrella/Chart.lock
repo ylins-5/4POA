@@ -1,0 +1,9 @@
+dependencies:
+- name: todo-frontend
+  repository: file://../todo-frontend
+  version: 0.1.0
+- name: sqlserver
+  repository: file://../sqlserver
+  version: 0.1.0
+digest: sha256:203ca8a222fd742cedf979bc062bf0219fb16385c37dbadcfa96e818cc90b509
+generated: "2026-10-13T21:11:50.3074263-03:00"

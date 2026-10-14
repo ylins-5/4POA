@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lista de Tarefas</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    form { display: flex; gap: 8px; }
+    input[type=text] { flex: 1; padding: 8px; }
+    li { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+    li.done span { text-decoration: line-through; opacity: .6; }
+    li span { flex: 1; }
+    ul { list-style: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <h1>Lista de Tarefas</h1>
+  <form id="f"><input id="t" type="text" placeholder="Nova tarefa" required><button>Adicionar</button></form>
+  <ul id="list"></ul>
+  <script>
+    const list = document.getElementById('list');
+    async function load() {
+      const tasks = await (await fetch('/api/tasks')).json();
+      list.innerHTML = '';
+      for (const t of tasks) {
+        const li = document.createElement('li');
+        if (t.done) li.className = 'done';
+        const cb = Object.assign(document.createElement('input'), { type: 'checkbox', checked: t.done });
+        cb.onchange = async () => { await fetch('/api/tasks/' + t.id, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ done: cb.checked }) }); load(); };
+        const sp = document.createElement('span'); sp.textContent = t.title;
+        const del = document.createElement('button'); del.textContent = '✕';
+        del.onclick = async () => { await fetch('/api/tasks/' + t.id, { method: 'DELETE' }); load(); };
+        li.append(cb, sp, del);
+        list.append(li);
+      }
+    }
+    document.getElementById('f').onsubmit = async (e) => {
+      e.preventDefault();
+      const t = document.getElementById('t');
+      await fetch('/api/tasks', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ title: t.value }) });
+      t.value = ''; load();
+    };
+    load();
+  </script>
+</body>
+</html>

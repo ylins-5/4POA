@@ -1,0 +1,18 @@
+image:
+  repository: mcr.microsoft.com/mssql/server
+  tag: 2022-latest
+  pullPolicy: IfNotPresent
+
+# Use --set global.saPassword=... ou o values do umbrella.
+saPassword: ""
+
+persistence:
+  size: 2Gi
+  storageClass: ""
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 2Gi
+  limits:
+    memory: 3Gi

@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: todo-frontend
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+database:
+  host: ""            # vazio = <release>-sqlserver
+  port: 1433
+  name: TodoDb
+  user: sa
+  secretName: ""      # vazio = <release>-sqlserver
+  secretKey: SA_PASSWORD
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    memory: 256Mi
